@@ -29943,8 +29943,3 @@ dealforge-ai/
 | Node.js | 18+ | [nodejs.org](https://nodejs.org) |
 | Git | Latest | [git-scm.com](https://git-scm.com) |
 | Gemini API Key | Free | [aistudio.google.com](https://aistudio.google.com/apikey) |
-
-### **Step 1: Clone Repository**
-```bash
-git clone https://github.com/vishakha2121/dealforge-ai.git
-cd dealforge-ai
