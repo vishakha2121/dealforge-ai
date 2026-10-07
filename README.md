@@ -1,0 +1,1169 @@
+<!-- ============================================================= -->
+<!--                    DEALFORGE AI — README                      -->
+<!-- ============================================================= -->
+
+<h1 align="center">
+  <br>
+  🤖 DealForge AI
+  <br>
+</h1>
+
+<h3 align="center">
+  Enterprise AI Negotiation Marketplace
+</h3>
+
+<p align="center">
+  <strong>Where AI Agents Do the Deals.</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Google%20Gemini-API-4285F4?style=for-the-badge&logo=google&logoColor=white" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/vishakha2121/dealforge-ai?style=social" />
+  <img src="https://img.shields.io/github/forks/vishakha2121/dealforge-ai?style=social" />
+  <img src="https://img.shields.io/github/watchers/vishakha2121/dealforge-ai?style=social" />
+  <img src="https://img.shields.io/github/issues/vishakha2121/dealforge-ai" />
+  <img src="https://img.shields.io/github/license/vishakha2121/dealforge-ai" />
+</p>
+
+---
+
+## 📌 Table of Contents
+
+<details>
+<summary>Click to expand</summary>
+
+- [Introduction](#-introduction)
+- [Motivation](#-motivation)
+- [Key Features](#-key-features)
+- [How It Works](#-how-it-works)
+- [The Four Agents](#-the-four-agents)
+- [Game Theory Concepts Used](#-game-theory-concepts-used)
+- [Tech Stack](#-tech-stack)
+- [System Architecture](#-system-architecture)
+- [Database Design](#-database-design)
+- [Project Folder Structure](#-project-folder-structure)
+- [Installation Guide](#-installation-guide)
+- [Configuration](#-configuration)
+- [Running the Application](#-running-the-application)
+- [API Reference](#-api-reference)
+- [Frontend Pages](#-frontend-pages)
+- [Sample Negotiation Flow](#-sample-negotiation-flow)
+- [Screenshots](#-screenshots)
+- [Testing](#-testing)
+- [Roadmap](#-roadmap)
+- [Challenges & Learnings](#-challenges--learnings)
+- [Future Enhancements](#-future-enhancements)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Author](#-author)
+- [Acknowledgments](#-acknowledgments)
+
+</details>
+
+---
+
+## 🌟 Introduction
+
+**DealForge AI** is an experimental, practice-level multi-agent system that simulates **enterprise procurement negotiations** between autonomous AI agents.
+
+Traditional procurement is slow, human-intensive, and often biased. What if AI agents could negotiate on your behalf — each optimizing for its own objective — and reach a deal that benefits everyone?
+
+DealForge AI is a working playground that answers that question. It uses **Google Gemini API** to power four specialized agents that talk, counter-offer, and eventually settle on a contract — all visualized in a beautiful React dashboard.
+
+This project is designed to explore:
+- **Multi-Agent Systems (MAS)** — independent agents with conflicting goals
+- **Game Theory** — equilibrium, utility, BATNA, ZOPA
+- **LLM-Powered Negotiation** — natural-language reasoning via Gemini
+- **Real-time Visualization** — live negotiation streams
+- **Full-Stack Engineering** — FastAPI + React + SQLite
+
+---
+
+## 💡 Motivation
+
+Real-world procurement cycles can take **weeks to months**. Human negotiators get tired, emotional, and biased. Meanwhile, enterprises spend billions annually on acquiring goods and services.
+
+LLMs have matured to a point where they can:
+- Reason about price and quality
+- Generate persuasive arguments
+- Follow strategic rules (win-win, aggressive, cooperative)
+
+Pairing LLMs with **game-theoretic utility functions** creates a system where agents don't just chat — they *strategically optimize*.
+
+DealForge AI is a small step toward **autonomous procurement**, a field that will redefine B2B commerce in the next decade.
+
+---
+
+## ✨ Key Features
+
+### 🤖 Multi-Agent Negotiation
+- **4 autonomous agents** — Buyer, Seller, Pricing, Contract
+- Each agent has an independent **utility function** and **strategy**
+- Agents exchange offers in structured rounds until settlement or deadlock
+
+### 🧠 Game Theory Engine
+- **Nash Equilibrium** calculation for settlement
+- **BATNA** — Best Alternative To Negotiated Agreement
+- **ZOPA** — Zone Of Possible Agreement detection
+- **Reservation price** computation per agent
+- **Utility score** tracking per round
+
+### 🎨 Stunning UI
+- Modern **glassmorphism** design
+- **Dark/Light theme** toggle
+- **Smooth animations** (Framer Motion)
+- **Fully responsive** — mobile, tablet, desktop
+- **Color-coded agents** — Buyer (blue), Seller (red), Pricing (green), Contract (purple)
+
+### 📊 Real-Time Visualization
+- **Live negotiation chat** view
+- **Price movement chart** (round-by-round)
+- **Utility comparison** graph
+- **Offer timeline** with reasoning
+- **Deal confidence meter**
+
+### 📝 Contract Generation
+- Auto-generated contract from final agreement
+- Download as **PDF**
+- Contract history with search & filters
+
+### 💾 Data Persistence
+- **SQLite** — zero setup, file-based
+- Full negotiation history
+- Deal analytics dashboard
+- Agent performance stats
+
+### 🔌 REST API
+- Well-documented **FastAPI** endpoints
+- **Swagger UI** at `/docs`
+- **ReDoc** at `/redoc`
+- JSON request/response
+
+---
+
+## 🔄 How It Works
+
+```
+              ┌──────────────────────┐
+              │   USER INPUTS        │
+              │  Product / Budget    │
+              │  Seller Min / Qty    │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │  PRICING AGENT       │
+              │  Computes ZOPA       │
+              │  & Fair Price Range  │
+              └──────────┬───────────┘
+                         │
+        ┌────────────────┴────────────────┐
+        │                                 │
+        ▼                                 ▼
+  ┌───────────┐                     ┌───────────┐
+  │  BUYER    │◄──── Offer ────────►│  SELLER   │
+  │  AGENT    │      Counter        │  AGENT    │
+  └─────┬─────┘                     └─────┬─────┘
+        │                                 │
+        └────────────┬────────────────────┘
+                     │
+                     ▼
+           ┌──────────────────┐
+           │  Agreement?      │
+           │  (ZOPA overlap)  │
+           └────────┬─────────┘
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        ▼                       ▼
+   ┌─────────┐            ┌──────────┐
+   │ SUCCESS │            │  FAILED  │
+   └────┬────┘            └──────────┘
+        │
+        ▼
+  ┌─────────────┐
+  │  CONTRACT   │
+  │  AGENT      │
+  │  Drafts PDF │
+  └─────────────┘
+```
+
+### **Step-by-Step Flow**
+
+1. **User Setup** — User enters product details, budget, quantity, seller minimum
+2. **Pricing Agent** analyzes market data → computes fair price range + ZOPA
+3. **Round 1** — Buyer makes opening offer (aggressive), Seller counters (high)
+4. **Rounds 2..N** — Agents negotiate. Each round:
+   - Buyer/Seller generates offer via Gemini
+   - Pricing Agent checks ZOPA overlap
+   - Utility scores updated
+5. **Termination** —
+   - ✅ **Agreement** (prices within ZOPA)
+   - ❌ **Max rounds hit** (10 default)
+   - ❌ **No ZOPA** (impossible deal)
+6. **Contract Agent** drafts legal text + PDF
+7. **Persist** — Save all offers, final deal, contract to SQLite
+8. **Display** — User views result dashboard
+
+---
+
+## 👥 The Four Agents
+
+### 1️⃣ **Buyer Agent** 🟦
+| Attribute | Value |
+|---|---|
+| **Goal** | Minimize purchase price |
+| **Constraint** | Stay within budget |
+| **Strategy** | Start low, increase gradually |
+| **Utility Function** | `U = (budget - price) / budget` |
+| **Reservation Price** | Buyer's max acceptable = budget |
+
+### 2️⃣ **Seller Agent** 🟥
+| Attribute | Value |
+|---|---|
+| **Goal** | Maximize profit |
+| **Constraint** | Don't go below minimum |
+| **Strategy** | Start high, decrease gradually |
+| **Utility Function** | `U = (price - min) / min` |
+| **Reservation Price** | Seller's min acceptable = seller_min |
+
+### 3️⃣ **Pricing Agent** 🟩
+| Attribute | Value |
+|---|---|
+| **Goal** | Find fair market price |
+| **Role** | Mediator / Analyst |
+| **Strategy** | Use game theory, mid-point of ZOPA |
+| **Output** | Fair price range, ZOPA bounds |
+
+### 4️⃣ **Contract Agent** 🟪
+| Attribute | Value |
+|---|---|
+| **Goal** | Draft enforceable contract |
+| **Trigger** | After successful negotiation |
+| **Output** | Contract text + PDF |
+| **Includes** | Parties, terms, price, delivery, clauses |
+
+---
+
+## 🎲 Game Theory Concepts Used
+
+### **1. BATNA (Best Alternative To Negotiated Agreement)**
+Each agent has a fallback:
+- Buyer's BATNA = Find another seller at `budget`
+- Seller's BATNA = Find another buyer at `seller_min`
+
+If the deal is worse than BATNA, agent **walks away**.
+
+### **2. ZOPA (Zone Of Possible Agreement)**
+```
+ZOPA exists if:    buyer_max_price ≥ seller_min_price
+
+ZOPA Range:        [seller_min_price, buyer_max_price]
+Mid-point:         (seller_min + buyer_max) / 2
+```
+
+### **3. Nash Equilibrium**
+At settlement, neither agent can improve their utility by deviating:
+```
+price_final = argmax (U_buyer(p) + U_seller(p))
+```
+
+### **4. Utility Functions**
+Each agent computes utility per offer:
+
+**Buyer Utility:**
+```
+U_buyer(p) = (budget - p) / budget
+```
+- `U = 1` → free (impossible)
+- `U = 0` → paid full budget
+- `U < 0` → over budget (reject)
+
+**Seller Utility:**
+```
+U_seller(p) = (p - min_price) / min_price
+```
+- `U = 1` → doubled price
+- `U = 0` → sold at min
+- `U < 0` → below min (reject)
+
+### **5. Concession Strategy**
+Agents use a **time-based concession**:
+```
+offer(t) = opening - (opening - target) * (t / max_rounds)^α
+```
+Where `α` controls aggressiveness (default 0.5).
+
+### **6. Agreement Score**
+```
+Agreement Score = 1 - |U_buyer - U_seller|
+```
+Higher score = fairer deal.
+
+---
+
+## 🛠️ Tech Stack
+
+### **Backend**
+| Tech | Version | Purpose |
+|---|---|---|
+| Python | 3.11 | Core language |
+| FastAPI | 0.109 | Web framework |
+| Uvicorn | 0.27 | ASGI server |
+| SQLAlchemy | 2.0 | ORM |
+| Pydantic | 2.5 | Validation |
+| SQLite | 3 | Database |
+| google-generativeai | 0.4 | Gemini SDK |
+| python-dotenv | 1.0 | Env vars |
+| ReportLab | 4.0 | PDF generation |
+
+### **Frontend**
+| Tech | Version | Purpose |
+|---|---|---|
+| React | 18 | UI library |
+| Vite | 5 | Build tool |
+| TailwindCSS | 3 | Styling |
+| React Router | 6 | Routing |
+| Axios | 1.6 | HTTP client |
+| Recharts | 2.10 | Charts |
+| Framer Motion | 11 | Animations |
+| Lucide React | 0.3 | Icons |
+
+### **Tools**
+- Git & GitHub
+- Postman / Thunder Client
+- VS Code
+- Chrome DevTools
+
+---
+
+## 🏗️ System Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                       CLIENT (BROWSER)                       │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │           React SPA (Vite + TailwindCSS)               │  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │  │
+│  │  │Dashboard │ │New Nego. │ │Live View │ │Contract  │  │  │
+│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │  │
+│  └────────────────────────────────────────────────────────┘  │
+└───────────────────────────┬──────────────────────────────────┘
+                            │ HTTP/REST (JSON)
+                            ▼
+┌──────────────────────────────────────────────────────────────┐
+│                       API GATEWAY                            │
+│              FastAPI (Uvicorn ASGI Server)                   │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
+│  │/nego.    │ │/agents   │ │/contracts│ │/products │        │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
+└───────────────────────────┬──────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│  AGENT LAYER  │   │  SERVICES     │   │  PERSISTENCE  │
+│               │   │               │   │               │
+│ • Buyer       │   │ • Negotiation │   │ • SQLAlchemy  │
+│ • Seller      │   │   Engine      │   │ • SQLite DB   │
+│ • Pricing     │   │ • Game Theory │   │ • Migrations  │
+│ • Contract    │   │ • Utility Opt │   │               │
+└───────┬───────┘   └───────────────┘   └───────────────┘
+        │
+        ▼
+┌───────────────────────────────┐
+│      GOOGLE GEMINI API        │
+│   (LLM reasoning per agent)   │
+└───────────────────────────────┘
+```
+
+---
+
+## 🗄️ Database Design
+
+### **ER Diagram**
+
+```
+┌──────────────┐         ┌──────────────────┐
+│   AGENTS     │         │     PRODUCTS     │
+│──────────────│         │──────────────────│
+│ id (PK)      │         │ id (PK)          │
+│ name         │         │ name             │
+│ role         │         │ category         │
+│ config (JSON)│         │ base_price       │
+└──────────────┘         └────────┬─────────┘
+                                  │
+                                  │ 1:N
+                                  ▼
+┌──────────────────────────────────────────┐
+│             NEGOTIATIONS                 │
+│──────────────────────────────────────────│
+│ id (PK)                                  │
+│ product_id (FK)                          │
+│ buyer_budget                             │
+│ seller_min                               │
+│ status (active|agreed|failed)            │
+│ final_price                              │
+│ created_at                               │
+│ updated_at                               │
+└────┬──────────────────────────────┬──────┘
+     │ 1:N                          │ 1:1
+     ▼                              ▼
+┌──────────────────┐        ┌──────────────────┐
+│     OFFERS       │        │    CONTRACTS     │
+│──────────────────│        │──────────────────│
+│ id (PK)          │        │ id (PK)          │
+│ negotiation_id   │        │ negotiation_id   │
+│ agent_role       │        │ content          │
+│ round            │        │ signed_at        │
+│ price            │        │ pdf_path         │
+│ reasoning        │        └──────────────────┘
+│ utility_score    │
+│ created_at       │
+└──────────────────┘
+```
+
+### **Tables Overview**
+
+| Table | Rows (typical) | Purpose |
+|---|---|---|
+| `agents` | 4 | Static agent registry |
+| `products` | N | Product catalog |
+| `negotiations` | N | Each negotiation session |
+| `offers` | N × rounds | Every offer made |
+| `contracts` | ≤ N | Final deals only |
+
+### **Indexes**
+- `offers.negotiation_id` — fast lookup
+- `negotiations.status` — filter active/agreed
+- `contracts.signed_at` — sort by recency
+
+---
+
+## 📁 Project Folder Structure
+
+```
+dealforge-ai/
+│
+├── .gitignore
+├── .env.example
+├── README.md
+├── LICENSE
+├── docker-compose.yml
+│
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── .env
+│   │
+│   ├── app/
+│   │   ├── __init__.py
+│   │   │
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py
+│   │   │   ├── constants.py
+│   │   │   └── gemini_client.py
+│   │   │
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   ├── database.py
+│   │   │   ├── models.py
+│   │   │   └── init_db.py
+│   │   │
+│   │   ├── schemas/
+│   │   │   ├── __init__.py
+│   │   │   ├── agent_schema.py
+│   │   │   ├── negotiation_schema.py
+│   │   │   └── contract_schema.py
+│   │   │
+│   │   ├── agents/
+│   │   │   ├── __init__.py
+│   │   │   ├── base_agent.py
+│   │   │   ├── buyer_agent.py
+│   │   │   ├── seller_agent.py
+│   │   │   ├── pricing_agent.py
+│   │   │   └── contract_agent.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── __init__.py
+│   │   │   ├── negotiation_engine.py
+│   │   │   ├── game_theory.py
+│   │   │   ├── utility_optimizer.py
+│   │   │   ├── offer_generator.py
+│   │   │   └── contract_generator.py
+│   │   │
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   └── v1/
+│   │   │       ├── __init__.py
+│   │   │       ├── routes_negotiation.py
+│   │   │       ├── routes_agents.py
+│   │   │       ├── routes_contracts.py
+│   │   │       └── routes_products.py
+│   │   │
+│   │   └── utils/
+│   │       ├── __init__.py
+│   │       ├── logger.py
+│   │       ├── helpers.py
+│   │       └── validators.py
+│   │
+│   ├── data/
+│   │   ├── negotiation.db
+│   │   └── seed_data.json
+│   │
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_agents.py
+│       ├── test_negotiation.py
+│       └── test_api.py
+│
+├── frontend/
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── .env
+│   │
+│   └── src/
+│       ├── main.jsx
+│       ├── App.jsx
+│       ├── index.css
+│       │
+│       ├── assets/
+│       │   ├── logo.svg
+│       │   └── illustrations/
+│       │       ├── buyer.svg
+│       │       ├── seller.svg
+│       │       └── handshake.svg
+│       │
+│       ├── api/
+│       │   ├── axiosClient.js
+│       │   ├── negotiationApi.js
+│       │   ├── agentApi.js
+│       │   └── contractApi.js
+│       │
+│       ├── components/
+│       │   ├── common/
+│       │   │   ├── Navbar.jsx
+│       │   │   ├── Sidebar.jsx
+│       │   │   ├── Footer.jsx
+│       │   │   ├── Loader.jsx
+│       │   │   ├── Button.jsx
+│       │   │   ├── Card.jsx
+│       │   │   ├── Modal.jsx
+│       │   │   └── Toast.jsx
+│       │   │
+│       │   ├── dashboard/
+│       │   │   ├── StatsCard.jsx
+│       │   │   ├── ActiveNegotiations.jsx
+│       │   │   ├── RecentDeals.jsx
+│       │   │   └── PerformanceChart.jsx
+│       │   │
+│       │   ├── negotiation/
+│       │   │   ├── NegotiationSetup.jsx
+│       │   │   ├── LiveNegotiationView.jsx
+│       │   │   ├── ChatBubble.jsx
+│       │   │   ├── OfferTimeline.jsx
+│       │   │   ├── PriceChart.jsx
+│       │   │   ├── AgentAvatar.jsx
+│       │   │   └── NegotiationResult.jsx
+│       │   │
+│       │   ├── agents/
+│       │   │   ├── AgentCard.jsx
+│       │   │   ├── AgentList.jsx
+│       │   │   └── AgentConfig.jsx
+│       │   │
+│       │   └── contracts/
+│       │       ├── ContractView.jsx
+│       │       ├── ContractList.jsx
+│       │       └── ContractPDF.jsx
+│       │
+│       ├── pages/
+│       │   ├── HomePage.jsx
+│       │   ├── DashboardPage.jsx
+│       │   ├── NewNegotiationPage.jsx
+│       │   ├── LiveNegotiationPage.jsx
+│       │   ├── AgentsPage.jsx
+│       │   ├── ContractsPage.jsx
+│       │   ├── HistoryPage.jsx
+│       │   └── NotFoundPage.jsx
+│       │
+│       ├── routes/
+│       │   └── AppRoutes.jsx
+│       │
+│       ├── context/
+│       │   ├── NegotiationContext.jsx
+│       │   └── ThemeContext.jsx
+│       │
+│       ├── hooks/
+│       │   ├── useNegotiation.js
+│       │   ├── useWebSocket.js
+│       │   └── useAuth.js
+│       │
+│       ├── utils/
+│       │   ├── formatters.js
+│       │   ├── constants.js
+│       │   └── mockData.js
+│       │
+│       └── styles/
+│           ├── globals.css
+│           └── animations.css
+│
+├── database/
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── migrations/
+│       ├── 001_init.sql
+│       └── 002_add_contracts.sql
+│
+├── docs/
+│   ├── API_DOCUMENTATION.md
+│   ├── ARCHITECTURE.md
+│   ├── SETUP_GUIDE.md
+│   └── PROJECT_REPORT.md
+│
+└── scripts/
+    ├── start_backend.sh
+    ├── start_frontend.sh
+    └── seed_db.py
+```
+
+---
+
+## ⚙️ Installation Guide
+
+### **Prerequisites**
+
+| Tool | Version | Download |
+|---|---|---|
+| Python | 3.10+ | [python.org](https://python.org) |
+| Node.js | 18+ | [nodejs.org](https://nodejs.org) |
+| Git | Latest | [git-scm.com](https://git-scm.com) |
+| Gemini API Key | Free | [aistudio.google.com](https://aistudio.google.com/apikey) |
+
+### **Step 1: Clone Repository**
+```bash
+git clone https://github.com/vishakha2121/dealforge-ai.git
+cd dealforge-ai
+```
+
+### **Step 2: Backend Setup**
+```bash
+cd backend
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### **Step 3: Frontend Setup**
+```bash
+cd ../frontend
+npm install
+```
+
+### **Step 4: Database Init**
+```bash
+cd ../backend
+python -m app.db.init_db
+```
+
+### **Step 5: Start Backend**
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+### **Step 6: Start Frontend** (new terminal)
+```bash
+cd frontend
+npm run dev
+```
+
+Open: **http://localhost:5173** 🎉
+
+---
+
+## 🔧 Configuration
+
+### **Backend `.env`**
+
+Create `backend/.env`:
+```env
+# Google Gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-1.5-flash
+
+# Database
+DATABASE_URL=sqlite:///./data/negotiation.db
+
+# Negotiation
+MAX_NEGOTIATION_ROUNDS=10
+MIN_CONCESSION_RATE=0.02
+MAX_CONCESSION_RATE=0.15
+
+# App
+APP_NAME=DealForge AI
+APP_VERSION=1.0.0
+DEBUG=True
+LOG_LEVEL=INFO
+
+# CORS
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+```
+
+### **Frontend `.env`**
+
+Create `frontend/.env`:
+```env
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_APP_NAME=DealForge AI
+VITE_ENABLE_ANALYTICS=false
+```
+
+### **`.env.example`** (commit this, not `.env`)
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+DATABASE_URL=sqlite:///./data/negotiation.db
+MAX_NEGOTIATION_ROUNDS=10
+LOG_LEVEL=INFO
+```
+
+> ⚠️ **NEVER commit actual `.env` files.** Only commit `.env.example`.
+
+---
+
+## 🚀 Running the Application
+
+### **Quick Start (Both Servers)**
+
+**Terminal 1 — Backend:**
+```bash
+cd backend
+venv\Scripts\activate   # Windows
+uvicorn main:app --reload --port 8000
+```
+
+**Terminal 2 — Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+### **Access Points**
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:8000 |
+| Swagger Docs | http://localhost:8000/docs |
+| ReDoc | http://localhost:8000/redoc |
+
+### **Build for Production**
+
+**Frontend:**
+```bash
+cd frontend
+npm run build
+# Output: frontend/dist/
+```
+
+**Backend:**
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+---
+
+## 🔌 API Reference
+
+### **Base URL**
+```
+http://localhost:8000/api/v1
+```
+
+### **Negotiation Endpoints**
+
+#### `POST /negotiations/start`
+Start a new negotiation.
+
+**Request:**
+```json
+{
+  "product_name": "Laptop Dell XPS 15",
+  "quantity": 100,
+  "buyer_budget": 90000,
+  "seller_min": 75000,
+  "max_rounds": 10
+}
+```
+
+**Response:**
+```json
+{
+  "negotiation_id": 1,
+  "status": "active",
+  "zopa": {
+    "exists": true,
+    "min": 75000,
+    "max": 90000,
+    "mid": 82500
+  },
+  "created_at": "2026-01-15T10:30:00Z"
+}
+```
+
+#### `GET /negotiations/{id}`
+Get negotiation details.
+
+#### `GET /negotiations`
+List all negotiations (with pagination).
+
+#### `POST /negotiations/{id}/next-round`
+Advance to next negotiation round.
+
+**Response:**
+```json
+{
+  "round": 2,
+  "buyer_offer": {
+    "price": 78000,
+    "reasoning": "Given market conditions...",
+    "utility": 0.13
+  },
+  "seller_offer": {
+    "price": 87000,
+    "reasoning": "Our quality is superior...",
+    "utility": 0.16
+  },
+  "status": "active"
+}
+```
+
+#### `DELETE /negotiations/{id}`
+Delete a negotiation.
+
+### **Agent Endpoints**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/agents` | List all 4 agents |
+| GET | `/agents/{id}` | Get agent details |
+| POST | `/agents/{id}/configure` | Update agent config |
+
+### **Contract Endpoints**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/contracts` | List all contracts |
+| GET | `/contracts/{id}` | Get contract text |
+| GET | `/contracts/{id}/pdf` | Download PDF |
+
+### **Product Endpoints**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/products` | List products |
+| POST | `/products` | Add product |
+| GET | `/products/{id}` | Product details |
+
+### **Status Codes**
+
+| Code | Meaning |
+|---|---|
+| 200 | OK |
+| 201 | Created |
+| 400 | Bad Request |
+| 404 | Not Found |
+| 422 | Validation Error |
+| 500 | Server Error |
+
+---
+
+## 🎨 Frontend Pages
+
+### **1. Home Page** (`/`)
+- Hero section with project intro
+- Feature highlights
+- CTA: "Start Negotiation"
+
+### **2. Dashboard** (`/dashboard`)
+- Stats cards: Total negotiations, Deals closed, Avg round, Success rate
+- Active negotiations list
+- Recent deals table
+- Performance chart
+
+### **3. New Negotiation** (`/negotiate/new`)
+- Multi-step form:
+  - Product details
+  - Budget & quantity
+  - Seller constraints
+  - Agent strategy selection
+- Live ZOPA preview
+
+### **4. Live Negotiation** (`/negotiate/:id`)
+- Round indicator
+- Chat bubbles (Buyer left, Seller right)
+- Price chart updating live
+- Utility meter
+- "Next Round" button (or auto-play)
+
+### **5. Agents** (`/agents`)
+- 4 agent cards
+- Current strategy
+- Past performance
+
+### **6. Contracts** (`/contracts`)
+- Contract list
+- View + download PDF
+- Filter by status
+
+### **7. History** (`/history`)
+- All past negotiations
+- Search & filter
+- Analytics view
+
+---
+
+## 💬 Sample Negotiation Flow
+
+**Scenario:** 100 Dell XPS laptops
+- Buyer budget: **₹90,000** per unit
+- Seller minimum: **₹75,000** per unit
+- **ZOPA: ₹75,000 – ₹90,000** ✅
+
+| Round | Buyer Offer | Seller Offer | Buyer Utility | Seller Utility |
+|---|---|---|---|---|
+| 1 | ₹76,000 | ₹89,000 | 0.156 | 0.187 |
+| 2 | ₹78,000 | ₹87,500 | 0.133 | 0.167 |
+| 3 | ₹80,500 | ₹85,000 | 0.106 | 0.133 |
+| 4 | ₹82,000 | ₹84,000 | 0.089 | 0.120 |
+| 5 | **₹83,000** | **₹83,000** | 0.078 | 0.107 |
+| ✅ | **DEAL @ ₹83,000** | | | |
+
+**Contract drafted by Contract Agent:**
+> *"This Supply Agreement is entered between Buyer Corp and Seller Ltd for the delivery of 100 Dell XPS 15 laptops at ₹83,000 per unit, totaling ₹83,00,000. Delivery within 30 days..."*
+
+---
+
+## 📸 Screenshots
+
+> 📌 *Add screenshots once UI is built*
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Live Negotiation
+![Live Negotiation](docs/screenshots/live-negotiation.png)
+
+### Contract View
+![Contract](docs/screenshots/contract.png)
+
+---
+
+## 🧪 Testing
+
+### **Backend Tests**
+```bash
+cd backend
+pytest tests/ -v
+```
+
+### **Test Files**
+- `test_agents.py` — Unit tests for 4 agents
+- `test_negotiation.py` — End-to-end negotiation flow
+- `test_api.py` — API endpoint tests
+
+### **Manual Testing**
+Use Postman collection (in `docs/`) or Swagger UI at `/docs`.
+
+---
+
+## 🗺️ Roadmap
+
+### ✅ Phase 1: Foundation
+- [x] Project structure
+- [x] README + docs
+- [x] Git setup
+
+### 🚧 Phase 2: Backend (In Progress)
+- [ ] FastAPI boilerplate
+- [ ] Gemini API integration
+- [ ] Base agent class
+- [ ] Buyer agent
+- [ ] Seller agent
+- [ ] Pricing agent
+- [ ] Contract agent
+- [ ] Negotiation engine
+- [ ] Game theory module
+- [ ] SQLite models
+- [ ] REST endpoints
+
+### 🚧 Phase 3: Frontend
+- [ ] Vite + React setup
+- [ ] TailwindCSS theme
+- [ ] Routing
+- [ ] Dashboard page
+- [ ] New Negotiation form
+- [ ] Live Negotiation view
+- [ ] Price charts
+- [ ] Contract viewer
+
+### 🔮 Phase 4: Advanced
+- [ ] WebSocket live updates
+- [ ] PDF contract export
+- [ ] Multi-product negotiation
+- [ ] Agent personality sliders
+- [ ] JWT authentication
+- [ ] Docker deployment
+- [ ] Unit + Integration tests
+- [ ] CI/CD pipeline
+
+---
+
+## 🧗 Challenges & Learnings
+
+### **Challenge 1: LLM Consistency**
+LLMs can hallucinate prices outside ZOPA. **Solution:** Post-process LLM output with validators.
+
+### **Challenge 2: Negotiation Convergence**
+Without concession rules, agents get stuck. **Solution:** Time-based concession formula.
+
+### **Challenge 3: Utility Comparison**
+Comparing buyer vs seller utility directly is unfair (different scales). **Solution:** Normalize both to [0,1].
+
+### **Challenge 4: SQLite Concurrency**
+FastAPI + SQLite needs `check_same_thread=False`. Handled in `database.py`.
+
+### **Learnings**
+- Multi-agent systems need clear **interfaces** and **constraints**
+- LLMs are great at **reasoning**, weak at **arithmetic** — always validate
+- Game theory provides the **backbone**, LLM provides the **voice**
+
+---
+
+## 🚀 Future Enhancements
+
+- 🔄 **Multi-party negotiation** (3+ buyers/sellers)
+- 🧬 **Genetic algorithms** for optimal strategies
+- 📈 **Real market data** integration
+- 🎯 **Custom agent personalities** (aggressive/cooperative)
+- 🌐 **Multi-language support**
+- 🔐 **User authentication** + roles
+- 📱 **Mobile app** (React Native)
+- ☁️ **Cloud deployment** (AWS/GCP)
+- 📊 **Advanced analytics** dashboard
+- 🤝 **Human-in-the-loop** mode
+
+---
+
+## 🤝 Contributing
+
+This is a personal practice project, but contributions are welcome!
+
+1. **Fork** the repository
+2. **Create** feature branch:
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit** changes:
+   ```bash
+   git commit -m "Add amazing feature"
+   ```
+4. **Push**:
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open** a Pull Request
+
+### **Code Style**
+- Python: **PEP 8** + Black formatter
+- JavaScript: **ESLint** + Prettier
+- Commits: **Conventional Commits**
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2026 Vishakha
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 👩‍💻 Author
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Vishakha</strong><br>
+      <a href="https://github.com/vishakha2121">@vishakha2121</a><br><br>
+      <em>Full-Stack Developer | AI Enthusiast</em>
+    </td>
+  </tr>
+</table>
+
+**Project Link:** [https://github.com/vishakha2121/dealforge-ai](https://github.com/vishakha2121/dealforge-ai)
+
+---
+
+## 🙏 Acknowledgments
+
+- **Google Gemini** — for powerful, free LLM API
+- **FastAPI** — for the cleanest Python web framework
+- **React + Vite** — for blazing-fast dev experience
+- **TailwindCSS** — for making UI fun again
+- **John Nash** — for the beautiful math of negotiation
+- **Open Source Community** — for tools that make learning possible
+
+---
+
+<div align="center">
+
+### ⭐ If you find this project helpful, please star it!
+
+**Built with ❤️ for learning Multi-Agent AI Systems**
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+
+</div>
